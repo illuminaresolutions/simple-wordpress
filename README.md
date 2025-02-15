@@ -1,0 +1,3 @@
+# Simple WordPress Docker Configuration
+
+Initializing repository...
