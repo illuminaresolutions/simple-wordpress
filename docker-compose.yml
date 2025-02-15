@@ -34,7 +34,7 @@ services:
       - redis
 
   mysql:
-    image: mysql:8.4.4-oracle
+    image: mysql:lts
     environment:
       MYSQL_DATABASE: wordpress
       MYSQL_USER: wordpress
