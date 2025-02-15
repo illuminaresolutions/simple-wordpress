@@ -56,9 +56,6 @@ services:
       - redis:/data
       - ./redis.conf:/usr/local/etc/redis/redis.conf
     command: redis-server /usr/local/etc/redis/redis.conf
-    sysctls:
-      - net.core.somaxconn=1024
-      - vm.overcommit_memory=1
 
 volumes:
   wordpress:
