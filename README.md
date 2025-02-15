@@ -1,35 +1,25 @@
 # Simple WordPress Docker Configuration
 
-A minimal, high-performance Docker configuration for WordPress using PHP-FPM, MySQL, and Redis.
+A minimal Docker configuration for WordPress, optimized for Coolify deployment.
 
 ## Features
 
-- PHP 8.2 with FPM for optimal performance
-- MySQL 8.0 with tuned InnoDB settings
-- Redis 7 for object caching
-- Optimized for Coolify deployment
-- Traefik-ready configuration
+- WordPress 6.4 with Apache
+- MySQL 8.0
+- Coolify and Traefik ready
+- Minimal configuration for reliability
 
-## Configuration Highlights
+## Configuration
 
-### PHP-FPM
-- Dynamic process management
-- 256MB memory limit
-- 64MB upload limit
-- Docker-optimized logging
+### WordPress
+- Official WordPress image with Apache
+- Automatic database connection
+- Volume persistence for uploads
 
 ### MySQL
-- InnoDB buffer pool: 1GB
-- Optimized log settings
+- MySQL 8.0
 - Native password authentication
-- Automatic database initialization
-
-### Redis
-- 256MB memory limit
-- LRU eviction policy
-- AOF persistence
-- RDB snapshots
-- WordPress-tuned settings
+- Persistent data storage
 
 ## Usage
 
@@ -39,13 +29,13 @@ A minimal, high-performance Docker configuration for WordPress using PHP-FPM, My
 
 ## Development
 
-Local development requires:
+Requirements:
 - Docker
 - Docker Compose
 - Git
 
 ## Notes
 
-- Port mapping is handled by Traefik in Coolify
+- Port mapping handled by Traefik in Coolify
 - Data persistence through Docker volumes
-- Automatic Redis integration with WordPress
+- Simplified configuration for reliability
