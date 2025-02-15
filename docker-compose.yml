@@ -10,7 +10,7 @@ services:
       - wordpress
 
   wordpress:
-    image: wordpress:6.4-fpm-alpine
+    image: wordpress:6.4-php8.2-fpm-alpine
     environment:
       WORDPRESS_DB_HOST: mysql
       WORDPRESS_DB_USER: wordpress
@@ -34,7 +34,7 @@ services:
       - redis
 
   mysql:
-    image: mysql:8.4.4
+    image: mysql:8.4.4-oracle
     environment:
       MYSQL_DATABASE: wordpress
       MYSQL_USER: wordpress
