@@ -117,10 +117,10 @@
 
 ### ⚠️ CRITICAL DEPLOYMENT INFORMATION
 - Production Environment: Coolify (root@149.28.58.181)
-- Active Container: qggo0k4ksg48gosk84ogcocg
-- Production URL: https://eos4wk884ogwgkkso0gso88k.ilmn.me
+- Active Container: b0go0swckoc4okwcgwo440gs
+- Production URL: https://i0k0gows8wocw00wgk0og48s.ilmn.me
 - Current Branch: feat/php-fpm-optimization
-- Status: 502 Bad Gateway
+- Status: 502 Bad Gateway (Persists after interface fix)
 
 ### Important Notes
 1. This is a PRODUCTION-ONLY deployment:
@@ -165,6 +165,12 @@
   - Updated listen directive to `0.0.0.0:9000`
   - This ensures PHP-FPM is accessible from Nginx container
   - No changes needed to Nginx configuration
+
+- Added PHP-FPM socket permissions:
+  - Set listen.owner and listen.group to www-data
+  - Set listen.mode to 0660
+  - Added listen.allowed_clients = any
+  - These changes ensure proper access rights
 
 ### Next Steps
 1. Deploy changes to Coolify
