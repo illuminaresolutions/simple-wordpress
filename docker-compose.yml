@@ -8,6 +8,8 @@ services:
       - ./conf.d:/etc/nginx/conf.d:ro
     depends_on:
       - wordpress
+    networks:
+      - wordpress_net
 
   wordpress:
     image: wordpress:6.4-php8.2-fpm-alpine
@@ -32,6 +34,8 @@ services:
     depends_on:
       - mysql
       - redis
+    networks:
+      - wordpress_net
 
   mysql:
     image: mysql:lts
@@ -49,6 +53,8 @@ services:
              --innodb-log-file-size=256M
              --innodb-flush-log-at-trx-commit=2
              --skip-log-bin
+    networks:
+      - wordpress_net
 
   redis:
     image: redis:7.2-alpine
@@ -56,8 +62,14 @@ services:
       - redis:/data
       - ./redis.conf:/usr/local/etc/redis/redis.conf
     command: redis-server /usr/local/etc/redis/redis.conf
+    networks:
+      - wordpress_net
 
 volumes:
   wordpress:
   mysql:
   redis:
+
+networks:
+  wordpress_net:
+    driver: bridge

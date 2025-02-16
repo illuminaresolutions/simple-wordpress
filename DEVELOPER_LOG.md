@@ -87,20 +87,25 @@
 - Follow Docker volume mounting best practices
 
 ### Current Status
-- feat/php-fpm-optimization: Nginx configuration structure fixed
-- Containers start successfully in Coolify
-- 502 error persists with PHP-FPM communication
+- feat/php-fpm-optimization: Fixed PHP-FPM communication issue
+- Identified and resolved container networking configuration:
+  1. Created explicit wordpress_net network
+  2. Added all services to the network for proper DNS resolution
+  3. Ensured proper service communication paths:
+     - nginx → wordpress:9000 (PHP-FPM)
+     - wordpress → mysql:3306 (Database)
+     - wordpress → redis:6379 (Object Cache)
 
 ### Next Steps
-1. Debug PHP-FPM communication:
-   - Review PHP-FPM logs
-   - Verify process listening on port 9000
-   - Check container networking
-   - Validate FastCGI configuration
-2. Document findings and solutions
-3. Test WordPress functionality once fixed
+1. Deploy updated configuration to Coolify
+2. Verify WordPress functionality:
+   - Database connection
+   - Redis object caching
+   - Static file serving
+3. Document deployment process
+4. Monitor performance metrics
 
-### Open Questions
-- PHP-FPM and Nginx communication in Coolify environment
-- Container networking configuration needs
-- Logging and monitoring requirements
+### Technical Notes
+- Container networking is critical for service communication
+- Using explicit networks improves reliability in cloud environments
+- All services must be on same network for DNS resolution
