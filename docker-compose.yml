@@ -1,75 +1,159 @@
-version: '3.8'
-
 services:
-  nginx:
-    image: nginx:1.25-alpine
-    volumes:
-      - wordpress:/var/www/html
-      - ./conf.d:/etc/nginx/conf.d:ro
-    depends_on:
-      - wordpress
-    networks:
-      - wordpress_net
-
-  wordpress:
-    image: wordpress:6.4-php8.2-fpm-alpine
-    environment:
-      WORDPRESS_DB_HOST: mysql
-      WORDPRESS_DB_USER: wordpress
-      WORDPRESS_DB_PASSWORD: wordpress_password
-      WORDPRESS_DB_NAME: wordpress
-      WORDPRESS_CONFIG_EXTRA: |
-        define('WP_REDIS_HOST', 'redis');
-        define('WP_REDIS_PORT', 6379);
-        define('WP_CACHE', true);
-        define('WP_MEMORY_LIMIT', '256M');
-        define('WP_MAX_MEMORY_LIMIT', '512M');
-        define('DISABLE_WP_CRON', true);
-        define('WP_POST_REVISIONS', 5);
-        define('EMPTY_TRASH_DAYS', 7);
-        define('WP_AUTO_UPDATE_CORE', false);
-    volumes:
-      - wordpress:/var/www/html
-      - ./php-fpm.conf:/usr/local/etc/php-fpm.d/zz-wordpress.conf
-    depends_on:
-      - mysql
-      - redis
-    networks:
-      - wordpress_net
-
-  mysql:
-    image: mysql:lts
-    environment:
-      MYSQL_DATABASE: wordpress
-      MYSQL_USER: wordpress
-      MYSQL_PASSWORD: wordpress_password
-      MYSQL_ROOT_PASSWORD: root_password
-    volumes:
-      - mysql:/var/lib/mysql
-    command: --default-authentication-plugin=mysql_native_password
-             --innodb-buffer-pool-size=1G
-             --innodb-buffer-pool-instances=2
-             --innodb-flush-method=O_DIRECT
-             --innodb-log-file-size=256M
-             --innodb-flush-log-at-trx-commit=2
-             --skip-log-bin
-    networks:
-      - wordpress_net
-
-  redis:
-    image: redis:7.2-alpine
-    volumes:
-      - redis:/data
-      - ./redis.conf:/usr/local/etc/redis/redis.conf
-    command: redis-server /usr/local/etc/redis/redis.conf
-    networks:
-      - wordpress_net
-
+    mysql:
+        image: "mysql:8.4.4"
+        environment:
+            MYSQL_DATABASE: wordpress
+            MYSQL_USER: wordpress
+            MYSQL_PASSWORD: wordpress_password
+            MYSQL_ROOT_PASSWORD: root_password
+            COOLIFY_BRANCH: "\"feat/php-fpm-optimization\""
+            COOLIFY_RESOURCE_UUID: u8cwskwosgw8ggc08844sg4c
+            COOLIFY_CONTAINER_NAME: mysql-u8cwskwosgw8ggc08844sg4c-142348766894
+        volumes:
+            - "u8cwskwosgw8ggc08844sg4c_mysql:/var/lib/mysql"
+        command: "mysqld --innodb-buffer-pool-size=1G --innodb-buffer-pool-instances=2 --innodb-flush-method=O_DIRECT --innodb-log-file-size=256M --innodb-flush-log-at-trx-commit=2 --skip-log-bin --port=3306"
+        networks:
+            wordpress_net: null
+            u8cwskwosgw8ggc08844sg4c: null
+        container_name: mysql-u8cwskwosgw8ggc08844sg4c-142348766894
+        restart: unless-stopped
+        labels:
+            - coolify.managed=true
+            - coolify.version=4.0.0-beta.393
+            - coolify.applicationId=14
+            - coolify.type=application
+            - coolify.name=mysql-u8cwskwosgw8ggc08844sg4c-142348766894
+            - coolify.resourceName=illuminaresolutionssimple-wordpressmain-m88cksk8co8ck8kwc48kwss0
+            - coolify.projectName=our-simple-wordpress-sites
+            - coolify.serviceName=illuminaresolutionssimple-wordpressmain-m88cksk8co8ck8kwc48kwss0
+            - coolify.environmentName=production
+            - coolify.pullRequestId=0
+        env_file:
+            - .env
+    nginx:
+        image: "nginx:1.25-alpine"
+        volumes:
+            - "u8cwskwosgw8ggc08844sg4c_wordpress:/var/www/html"
+            - "/data/coolify/applications/u8cwskwosgw8ggc08844sg4c/conf.d:/etc/nginx/conf.d"
+        depends_on:
+            - wordpress
+        networks:
+            wordpress_net: null
+            u8cwskwosgw8ggc08844sg4c: null
+        container_name: nginx-u8cwskwosgw8ggc08844sg4c-142348746764
+        restart: unless-stopped
+        labels:
+            - coolify.managed=true
+            - coolify.version=4.0.0-beta.393
+            - coolify.applicationId=14
+            - coolify.type=application
+            - coolify.name=nginx-u8cwskwosgw8ggc08844sg4c-142348746764
+            - coolify.resourceName=illuminaresolutionssimple-wordpressmain-m88cksk8co8ck8kwc48kwss0
+            - coolify.projectName=our-simple-wordpress-sites
+            - coolify.serviceName=illuminaresolutionssimple-wordpressmain-m88cksk8co8ck8kwc48kwss0
+            - coolify.environmentName=production
+            - coolify.pullRequestId=0
+            - traefik.enable=true
+            - traefik.http.middlewares.gzip.compress=true
+            - traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https
+            - traefik.http.routers.http-0-u8cwskwosgw8ggc08844sg4c-nginx.entryPoints=http
+            - traefik.http.routers.http-0-u8cwskwosgw8ggc08844sg4c-nginx.middlewares=redirect-to-https
+            - "traefik.http.routers.http-0-u8cwskwosgw8ggc08844sg4c-nginx.rule=Host(`cg48g4coog8wcwg0wscgw8ok.ilmn.me`) && PathPrefix(`/`)"
+            - traefik.http.routers.https-0-u8cwskwosgw8ggc08844sg4c-nginx.entryPoints=https
+            - traefik.http.routers.https-0-u8cwskwosgw8ggc08844sg4c-nginx.middlewares=gzip
+            - "traefik.http.routers.https-0-u8cwskwosgw8ggc08844sg4c-nginx.rule=Host(`cg48g4coog8wcwg0wscgw8ok.ilmn.me`) && PathPrefix(`/`)"
+            - traefik.http.routers.https-0-u8cwskwosgw8ggc08844sg4c-nginx.tls.certresolver=letsencrypt
+            - traefik.http.routers.https-0-u8cwskwosgw8ggc08844sg4c-nginx.tls=true
+        environment:
+            COOLIFY_BRANCH: "\"feat/php-fpm-optimization\""
+            COOLIFY_RESOURCE_UUID: u8cwskwosgw8ggc08844sg4c
+            COOLIFY_CONTAINER_NAME: nginx-u8cwskwosgw8ggc08844sg4c-142348746764
+        env_file:
+            - .env
+    wordpress:
+        image: "wordpress:6.4-php8.2-fpm-alpine"
+        environment:
+            WORDPRESS_DB_HOST: mysql
+            WORDPRESS_DB_USER: wordpress
+            WORDPRESS_DB_PASSWORD: wordpress_password
+            WORDPRESS_DB_NAME: wordpress
+            WORDPRESS_CONFIG_EXTRA: |
+                define("WP_REDIS_HOST", "redis");
+                define("WP_REDIS_PORT", 6379);
+                define("WP_CACHE", true);
+                define("WP_MEMORY_LIMIT", "256M");
+                define("WP_MAX_MEMORY_LIMIT", "512M");
+                define("DISABLE_WP_CRON", true);
+                define("WP_POST_REVISIONS", 5);
+                define("EMPTY_TRASH_DAYS", 7);
+                define("WP_AUTO_UPDATE_CORE", false);
+            COOLIFY_BRANCH: "\"feat/php-fpm-optimization\""
+            COOLIFY_RESOURCE_UUID: u8cwskwosgw8ggc08844sg4c
+            COOLIFY_CONTAINER_NAME: wordpress-u8cwskwosgw8ggc08844sg4c-142348758492
+            COOLIFY_URL: "https://cg48g4coog8wcwg0wscgw8ok.ilmn.me"
+            COOLIFY_FQDN: cg48g4coog8wcwg0wscgw8ok.ilmn.me
+        volumes:
+            - "u8cwskwosgw8ggc08844sg4c_wordpress:/var/www/html"
+            - "/data/coolify/applications/u8cwskwosgw8ggc08844sg4c/php-fpm.conf:/usr/local/etc/php-fpm.d/zz-wordpress.conf"
+        depends_on:
+            - mysql
+            - redis
+        networks:
+            wordpress_net: null
+            u8cwskwosgw8ggc08844sg4c: null
+        container_name: wordpress-u8cwskwosgw8ggc08844sg4c-142348758492
+        restart: unless-stopped
+        labels:
+            - coolify.managed=true
+            - coolify.version=4.0.0-beta.393
+            - coolify.applicationId=14
+            - coolify.type=application
+            - coolify.name=wordpress-u8cwskwosgw8ggc08844sg4c-142348758492
+            - coolify.resourceName=illuminaresolutionssimple-wordpressmain-m88cksk8co8ck8kwc48kwss0
+            - coolify.projectName=our-simple-wordpress-sites
+            - coolify.serviceName=illuminaresolutionssimple-wordpressmain-m88cksk8co8ck8kwc48kwss0
+            - coolify.environmentName=production
+            - coolify.pullRequestId=0
+        env_file:
+            - .env
+    redis:
+        image: "redis:7.2-alpine"
+        volumes:
+            - "u8cwskwosgw8ggc08844sg4c_redis:/data"
+            - "/data/coolify/applications/u8cwskwosgw8ggc08844sg4c/redis.conf:/usr/local/etc/redis/redis.conf"
+        command: "redis-server /usr/local/etc/redis/redis.conf"
+        networks:
+            wordpress_net: null
+            u8cwskwosgw8ggc08844sg4c: null
+        container_name: redis-u8cwskwosgw8ggc08844sg4c-142348771378
+        restart: unless-stopped
+        labels:
+            - coolify.managed=true
+            - coolify.version=4.0.0-beta.393
+            - coolify.applicationId=14
+            - coolify.type=application
+            - coolify.name=redis-u8cwskwosgw8ggc08844sg4c-142348771378
+            - coolify.resourceName=illuminaresolutionssimple-wordpressmain-m88cksk8co8ck8kwc48kwss0
+            - coolify.projectName=our-simple-wordpress-sites
+            - coolify.serviceName=illuminaresolutionssimple-wordpressmain-m88cksk8co8ck8kwc48kwss0
+            - coolify.environmentName=production
+            - coolify.pullRequestId=0
+        environment:
+            COOLIFY_BRANCH: "\"feat/php-fpm-optimization\""
+            COOLIFY_RESOURCE_UUID: u8cwskwosgw8ggc08844sg4c
+            COOLIFY_CONTAINER_NAME: redis-u8cwskwosgw8ggc08844sg4c-142348771378
+        env_file:
+            - .env
 volumes:
-  wordpress:
-  mysql:
-  redis:
-
+    u8cwskwosgw8ggc08844sg4c_wordpress:
+        name: u8cwskwosgw8ggc08844sg4c_wordpress
+    u8cwskwosgw8ggc08844sg4c_mysql:
+        name: u8cwskwosgw8ggc08844sg4c_mysql
+    u8cwskwosgw8ggc08844sg4c_redis:
+        name: u8cwskwosgw8ggc08844sg4c_redis
 networks:
-  wordpress_net:
-    driver: bridge
+    wordpress_net:
+        driver: bridge
+    u8cwskwosgw8ggc08844sg4c:
+        name: u8cwskwosgw8ggc08844sg4c
+        external: true
