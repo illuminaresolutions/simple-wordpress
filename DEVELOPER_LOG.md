@@ -117,9 +117,10 @@
 
 ### ⚠️ CRITICAL DEPLOYMENT INFORMATION
 - Production Environment: Coolify (root@149.28.58.181)
-- Active Container: q4008c0kk0kc4c4sg08k0ss8
+- Active Container: qggo0k4ksg48gosk84ogcocg
+- Production URL: https://eos4wk884ogwgkkso0gso88k.ilmn.me
 - Current Branch: feat/php-fpm-optimization
-- Status: 504 Gateway Timeout
+- Status: 502 Bad Gateway
 
 ### Important Notes
 1. This is a PRODUCTION-ONLY deployment:
@@ -152,3 +153,20 @@
 - FastCGI timeouts: 300s in both Nginx and PHP-FPM
 - PHP-FPM process manager: Dynamic with optimized children
 - Proper volume mounts for all configuration files
+
+## 2025-02-16 - PHP-FPM Network Fix
+
+**Task**: Issue #7 - PHP-FPM 502 Fix
+**Status**: In Progress
+
+### Progress
+- Identified potential PHP-FPM networking issue:
+  - PHP-FPM was only listening on localhost
+  - Updated listen directive to `0.0.0.0:9000`
+  - This ensures PHP-FPM is accessible from Nginx container
+  - No changes needed to Nginx configuration
+
+### Next Steps
+1. Deploy changes to Coolify
+2. Verify PHP-FPM is accepting connections
+3. Monitor for 502 resolution
