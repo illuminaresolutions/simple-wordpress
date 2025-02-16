@@ -63,3 +63,44 @@
 - Performance metrics to validate PHP-FPM benefits
 - Optimal Nginx caching strategies
 - Development workflow for local testing
+
+## 2025-02-16 - Nginx Configuration Structure Fix
+
+**Task**: Issue #7
+**Status**: In Progress
+
+### Progress
+- Fixed Nginx configuration mounting issue in Coolify:
+  1. Restructured Nginx configuration:
+     - Created conf.d directory
+     - Moved nginx.conf to conf.d/default.conf
+     - Updated docker-compose.yml to mount directory
+  2. Improved Docker compatibility:
+     - Following best practices for config mounting
+     - Preserving container filesystem structure
+     - Using read-only mounts for security
+
+### Technical Decisions
+- Mount entire conf.d directory instead of single file
+- Use standard Nginx configuration structure
+- Maintain separation of configuration files
+- Follow Docker volume mounting best practices
+
+### Current Status
+- feat/php-fpm-optimization: Updated with Nginx fixes
+- Configuration structure aligned with Docker standards
+- Ready for Coolify deployment testing
+
+### Next Steps
+1. Test deployment in Coolify:
+   - Verify Nginx container starts
+   - Check configuration loading
+   - Validate WordPress access
+2. Monitor for any additional mounting issues
+3. Document configuration structure
+4. Update deployment documentation
+
+### Open Questions
+- Additional Coolify-specific configuration needs
+- Performance impact of current setup
+- Backup and restore procedures
