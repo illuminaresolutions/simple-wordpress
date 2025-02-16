@@ -87,20 +87,20 @@
 - Follow Docker volume mounting best practices
 
 ### Current Status
-- feat/php-fpm-optimization: Updated with Nginx fixes
-- Configuration structure aligned with Docker standards
-- Ready for Coolify deployment testing
+- feat/php-fpm-optimization: Nginx configuration structure fixed
+- Containers start successfully in Coolify
+- 502 error persists with PHP-FPM communication
 
 ### Next Steps
-1. Test deployment in Coolify:
-   - Verify Nginx container starts
-   - Check configuration loading
-   - Validate WordPress access
-2. Monitor for any additional mounting issues
-3. Document configuration structure
-4. Update deployment documentation
+1. Debug PHP-FPM communication:
+   - Review PHP-FPM logs
+   - Verify process listening on port 9000
+   - Check container networking
+   - Validate FastCGI configuration
+2. Document findings and solutions
+3. Test WordPress functionality once fixed
 
 ### Open Questions
-- Additional Coolify-specific configuration needs
-- Performance impact of current setup
-- Backup and restore procedures
+- PHP-FPM and Nginx communication in Coolify environment
+- Container networking configuration needs
+- Logging and monitoring requirements
