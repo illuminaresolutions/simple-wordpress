@@ -109,3 +109,46 @@
 - Container networking is critical for service communication
 - Using explicit networks improves reliability in cloud environments
 - All services must be on same network for DNS resolution
+
+## 2025-02-16 - Production Environment Documentation
+
+**Task**: Issue #7 - PHP-FPM Timeout Fix
+**Status**: Critical
+
+### ⚠️ CRITICAL DEPLOYMENT INFORMATION
+- Production Environment: Coolify (root@149.28.58.181)
+- Active Container: q4008c0kk0kc4c4sg08k0ss8
+- Current Branch: feat/php-fpm-optimization
+- Status: 504 Gateway Timeout
+
+### Important Notes
+1. This is a PRODUCTION-ONLY deployment:
+   - Local repository contains deployment configurations
+   - Changes must be tested on Coolify server
+   - DO NOT attempt local container testing
+   - All service verification must occur on production
+
+2. Current Issue:
+   - 504 timeout affecting WordPress stack
+   - Previous working configuration lost due to container removal
+   - Configuration files need synchronization with last working state
+
+3. Deployment Process:
+   - All changes must be pushed to feat/php-fpm-optimization
+   - Coolify automatically deploys from this branch
+   - Test changes directly on production container
+   - Update local repository to match working configurations
+
+### Next Steps
+1. Verify configuration files match server requirements:
+   - Nginx FastCGI timeouts
+   - PHP-FPM process manager settings
+   - Container networking configuration
+2. Deploy changes to Coolify
+3. Monitor for 504 resolution
+4. Document working configuration
+
+### Technical Requirements
+- FastCGI timeouts: 300s in both Nginx and PHP-FPM
+- PHP-FPM process manager: Dynamic with optimized children
+- Proper volume mounts for all configuration files
