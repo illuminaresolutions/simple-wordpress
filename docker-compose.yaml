@@ -29,8 +29,3 @@ services:
       MYSQL_ROOT_PASSWORD: somewordpress
     volumes:
       - mysql_data:/var/lib/mysql
-
-volumes:
-  wordpress_data:
-  mysql_data:
-  redis_data:

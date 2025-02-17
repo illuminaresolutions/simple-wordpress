@@ -57,3 +57,8 @@
 1. Deploy to Coolify for testing
 2. Verify Redis connection
 3. Monitor cache performance
+
+### Coolify Learnings
+- Created CBP.md to document Coolify best practices
+- Removed unnecessary volume declarations (Coolify handles automatically)
+- Confirmed no port mappings needed (handled by Traefik)
