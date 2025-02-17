@@ -24,17 +24,9 @@ services:
       - wordpress_net
     restart: unless-stopped
     labels:
-      - traefik.enable=true
-      - traefik.http.middlewares.gzip.compress=true
-      - traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https
-      - traefik.http.routers.http-wordpress.entryPoints=http
-      - traefik.http.routers.http-wordpress.middlewares=redirect-to-https
-      - "traefik.http.routers.http-wordpress.rule=Host(`cg48g4coog8wcwg0wscgw8ok.ilmn.me`)"
-      - traefik.http.routers.https-wordpress.entryPoints=https
-      - traefik.http.routers.https-wordpress.middlewares=gzip
-      - "traefik.http.routers.https-wordpress.rule=Host(`cg48g4coog8wcwg0wscgw8ok.ilmn.me`)"
-      - traefik.http.routers.https-wordpress.tls.certresolver=letsencrypt
-      - traefik.http.routers.https-wordpress.tls=true
+      - "traefik.enable=true"
+      - "traefik.http.routers.${COMPOSE_PROJECT_NAME}-nginx.rule=Host(`${DOMAIN}`)"
+      - "traefik.http.services.${COMPOSE_PROJECT_NAME}-nginx.loadbalancer.server.port=80"
 
   wordpress:
     image: "wordpress:6.4-php8.2-fpm-alpine"
