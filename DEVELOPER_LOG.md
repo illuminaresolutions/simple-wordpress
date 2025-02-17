@@ -83,3 +83,28 @@
 1. Test deployment in Coolify
 2. Verify WordPress database connection
 3. Monitor for any initialization issues
+
+## 2025-02-17 - Adding WP-CLI Support
+
+**Task**: #14
+**Status**: In Progress
+
+### Progress
+- Added WP-CLI as a separate service in docker-compose.yaml:
+  - Using wordpress:cli-php8.2 image
+  - Shared volume with WordPress container
+  - Database connection configuration
+  - Proper service dependencies
+
+### Technical Decisions
+- Implemented as separate service rather than in WordPress container for:
+  - Better separation of concerns
+  - Independent scaling
+  - Cleaner configuration
+- Using cli-php8.2 variant to match WordPress PHP version
+- Added proper dependencies to ensure WordPress and MySQL are ready
+
+### Next Steps
+1. Deploy to Coolify for testing
+2. Verify WP-CLI functionality
+3. Document common commands in README.md

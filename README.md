@@ -36,6 +36,38 @@ A minimal Docker configuration for WordPress, optimized for Coolify deployment.
 2. Deploy to Coolify
 3. Access your WordPress site for the famous five-minute install
 
+### WP-CLI Usage
+
+The stack includes WP-CLI for efficient WordPress management. Common commands:
+
+```bash
+# Core
+wp core version                    # Check WordPress version
+wp core update                     # Update WordPress core
+wp core verify-checksums          # Verify core file integrity
+
+# Plugins
+wp plugin list                    # List installed plugins
+wp plugin install <name>          # Install a plugin
+wp plugin activate <name>         # Activate a plugin
+wp plugin update --all           # Update all plugins
+
+# Themes
+wp theme list                     # List installed themes
+wp theme install <name>           # Install a theme
+wp theme activate <name>          # Activate a theme
+
+# Database
+wp db export                      # Export database
+wp db import <file>              # Import database
+wp db optimize                    # Optimize database
+
+# Cache
+wp cache flush                    # Clear object cache
+```
+
+Access WP-CLI through Coolify's terminal interface.
+
 ## Development
 
 Requirements:
