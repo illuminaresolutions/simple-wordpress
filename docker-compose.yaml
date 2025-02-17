@@ -6,8 +6,8 @@ services:
     environment:
       - SERVICE_FQDN_WORDPRESS
       - WORDPRESS_DB_HOST=mysql
-      - WORDPRESS_DB_USER=$SERVICE_USER_WORDPRESS
-      - WORDPRESS_DB_PASSWORD=$SERVICE_PASSWORD_WORDPRESS
+      - WORDPRESS_DB_USER=wpdbuser
+      - WORDPRESS_DB_PASSWORD=wpdbpass
       - WORDPRESS_DB_NAME=wordpress
     depends_on:
       - mysql
@@ -25,10 +25,10 @@ services:
     volumes:
       - 'mysql-data:/var/lib/mysql'
     environment:
-      - MYSQL_ROOT_PASSWORD=$SERVICE_PASSWORD_ROOT
+      - MYSQL_ROOT_PASSWORD=mrpass
       - MYSQL_DATABASE=wordpress
-      - MYSQL_USER=$SERVICE_USER_WORDPRESS
-      - MYSQL_PASSWORD=$SERVICE_PASSWORD_WORDPRESS
+      - MYSQL_USER=wpdbuser
+      - MYSQL_PASSWORD=wpdbpass
     healthcheck:
       test:
         - CMD
