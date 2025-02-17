@@ -102,7 +102,10 @@
   - Independent scaling
   - Cleaner configuration
 - Using cli-php8.2 variant to match WordPress PHP version
-- Added proper dependencies to ensure WordPress and MySQL are ready
+- Added MySQL healthcheck and proper service dependencies:
+  - Ensures MySQL is fully ready before WP-CLI connects
+  - Prevents database connection errors during startup
+  - 5-second interval with 5 retries for reliability
 
 ### Next Steps
 1. Deploy to Coolify for testing

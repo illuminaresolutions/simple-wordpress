@@ -29,6 +29,11 @@ services:
       MYSQL_ROOT_PASSWORD: somewordpress
     volumes:
       - mysql_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "wordpress", "-pwordpress_password"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
 
   wpcli:
     image: wordpress:cli-php8.2
@@ -41,5 +46,7 @@ services:
       - wordpress_data:/var/www/html
     user: www-data
     depends_on:
-      - wordpress
-      - mysql
+      mysql:
+        condition: service_healthy
+      wordpress:
+        condition: service_started
