@@ -2,25 +2,25 @@
 
 A minimal Docker configuration for WordPress, optimized for Coolify deployment.
 
-## Features
+## Planned Features
 
-- WordPress 6.4 with Apache
-- MySQL 8.0
+- WordPress (latest) with PHP 8.2, PHP-FPM, and Nginx
+- MySQL LTS
 - Redis 7 for object caching
-- Coolify and Traefik ready
+- Coolify and Traefik ready (= minimal port and network configuration)
 - Minimal configuration for reliability
 
 ## Configuration
 
 ### WordPress
-- Official WordPress image with Apache
+- Official WordPress image with PHP 8.2, PHP-FPM, and Nginx
 - Automatic database connection
 - Redis object caching integration
 - Volume persistence for uploads
 
 ### MySQL
-- MySQL 8.0
-- Native password authentication
+- MySQL LTS (8.4.4)
+- Simplest authentication
 - Persistent data storage
 
 ### Redis
@@ -33,7 +33,7 @@ A minimal Docker configuration for WordPress, optimized for Coolify deployment.
 
 1. Clone this repository
 2. Deploy to Coolify
-3. Access your WordPress site
+3. Access your WordPress site for the famous five-minute install
 
 ## Development
 
@@ -41,6 +41,7 @@ Requirements:
 - Docker
 - Docker Compose
 - Git
+- Coolify
 
 ## Notes
 

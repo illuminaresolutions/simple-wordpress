@@ -204,7 +204,7 @@ Essential files and their handling:
 ### 3. Git Workflow
 
 | Component | Format |
-|-----------|---------||
+|-----------|---------|
 | Branch naming | `type/description` |
 | Commit message | `type: description (#issue)` |
 | Types | feat, fix, docs, style, refactor, test |
