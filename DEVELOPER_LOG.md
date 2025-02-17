@@ -62,3 +62,24 @@
 - Created CBP.md to document Coolify best practices
 - Removed unnecessary volume declarations (Coolify handles automatically)
 - Confirmed no port mappings needed (handled by Traefik)
+
+## 2025-02-17 - MySQL LTS Upgrade
+
+**Task**: #12
+**Status**: In Progress
+
+### Progress
+- Attempting direct upgrade from MySQL 8 to 8.4.4 LTS
+- Updated docker-compose.yaml with mysql:8.4.4 image
+
+### Technical Decisions
+- Chose direct upgrade path (8 → 8.4.4) because:
+  - Fresh WordPress install (no existing data to migrate)
+  - MySQL 8.4.4 is an LTS release focused on stability
+  - WordPress has good MySQL version compatibility
+  - Docker image changes mainly affect initialization/configuration
+
+### Next Steps
+1. Test deployment in Coolify
+2. Verify WordPress database connection
+3. Monitor for any initialization issues
