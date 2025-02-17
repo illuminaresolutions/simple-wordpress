@@ -117,10 +117,15 @@
 
 ### ⚠️ CRITICAL DEPLOYMENT INFORMATION
 - Production Environment: Coolify (root@149.28.58.181)
-- Active Container: b0go0swckoc4okwcgwo440gs
-- Production URL: https://i0k0gows8wocw00wgk0og48s.ilmn.me
+- Active Container: zk844sso4wc880gks08o48o8
+- Production URL: https://sows4ck0c0k8ckgk84k0wc4o.ilmn.me
 - Current Branch: feat/php-fpm-optimization
-- Status: 502 Bad Gateway (Persists after interface fix)
+- Status: 502 Bad Gateway (Testing directly on server)
+
+### Testing Protocol
+1. SSH into VPS: `ssh root@149.28.58.181`
+2. Test changes directly on container
+3. Only commit working changes to repo
 
 ### Important Notes
 1. This is a PRODUCTION-ONLY deployment:
@@ -160,17 +165,29 @@
 **Status**: In Progress
 
 ### Progress
-- Identified potential PHP-FPM networking issue:
-  - PHP-FPM was only listening on localhost
-  - Updated listen directive to `0.0.0.0:9000`
-  - This ensures PHP-FPM is accessible from Nginx container
-  - No changes needed to Nginx configuration
+- Fixed PHP-FPM and MySQL connectivity:
+  - PHP-FPM now listening on all interfaces (0.0.0.0:9000)
+  - Using direct MySQL IP (172.20.0.4) instead of hostname
+  - Local curl tests confirm PHP-FPM and MySQL are working
+  - WordPress redirects to install page when accessed locally
 
-- Added PHP-FPM socket permissions:
-  - Set listen.owner and listen.group to www-data
-  - Set listen.mode to 0660
-  - Added listen.allowed_clients = any
-  - These changes ensure proper access rights
+- Current Container Status:
+  - nginx: 23fa50473ff9 (nginx:1.25-alpine)
+  - wordpress: e3a6bae0531c (wordpress:6.4-php8.2-fpm-alpine)
+  - mysql: 456c8099f51a (mysql:8.4.4)
+  - All containers on both networks:
+    * zk844sso4wc880gks08o48o8
+    * zk844sso4wc880gks08o48o8_wordpress_net
+
+- Coolify Integration Issues:
+  - Site returns 503 "no server available"
+  - Tried various Coolify labels:
+    * coolify.managed=true
+    * coolify.type=application
+    * coolify.applicationId=18
+    * coolify.environmentName=production
+    * coolify.projectName=our-simple-wordpress-sites
+  - Need to investigate Coolify's routing requirements
 
 ### Next Steps
 1. Deploy changes to Coolify
