@@ -1,3 +1,8 @@
+# documentation: https://wordpress.org
+# slogan: Wordpress is open source software you can use to create a beautiful website, blog, or app.
+# tags: cms, blog, content, management, mysql
+# logo: svgs/wordpress.svg
+
 services:
   wordpress:
     image: wordpress:latest
@@ -30,7 +35,3 @@ services:
       interval: 5s
       timeout: 20s
       retries: 10
-
-volumes:
-  wordpress-files:
-  mysql-data:
