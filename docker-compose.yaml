@@ -39,7 +39,7 @@ services:
       WORDPRESS_DB_NAME: wordpress
     volumes:
       - wordpress_data:/var/www/html
-    user: xfs
+    user: www-data
     depends_on:
       - wordpress
       - mysql
